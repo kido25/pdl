@@ -1,0 +1,9 @@
+{
+	"name": "pdladfdev",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "3933d522-87db-4f2f-906e-a1989685c645",
+		"tenantId": "21baf638-7ba7-431e-96f5-2b57914b27c3"
+	}
+}
