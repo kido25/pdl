@@ -1,0 +1,73 @@
+{
+	"name": "DS_USCB_CREDIT_SCORES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_S3_USCB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AmazonS3Location",
+				"bucketName": "uscbdev",
+				"folderPath": "credit-scores",
+				"fileName": "credit-scores-latest.csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "String"
+			},
+			{
+				"name": "SeriousDlqin2yrs",
+				"type": "String"
+			},
+			{
+				"name": "RevolvingUtilizationOfUnsecuredLines",
+				"type": "String"
+			},
+			{
+				"name": "age",
+				"type": "String"
+			},
+			{
+				"name": "NumberOfTime30-59DaysPastDueNotWorse",
+				"type": "String"
+			},
+			{
+				"name": "DebtRatio",
+				"type": "String"
+			},
+			{
+				"name": "MonthlyIncome",
+				"type": "String"
+			},
+			{
+				"name": "NumberOfOpenCreditLinesAndLoans",
+				"type": "String"
+			},
+			{
+				"name": "NumberOfTimes90DaysLate",
+				"type": "String"
+			},
+			{
+				"name": "NumberRealEstateLoansOrLines",
+				"type": "String"
+			},
+			{
+				"name": "NumberOfTime60-89DaysPastDueNotWorse",
+				"type": "String"
+			},
+			{
+				"name": "NumberOfDependents",
+				"type": "String"
+			}
+		]
+	}
+}
