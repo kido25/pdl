@@ -1,0 +1,40 @@
+{
+	"name": "DS_PDL_CSV",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_EUW_PDL",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"DS_Filesystem": {
+				"type": "string"
+			},
+			"DS_Directory": {
+				"type": "string"
+			},
+			"DS_Environment": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@dataset().DS_Directory",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().DS_Filesystem",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
