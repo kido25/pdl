@@ -21,8 +21,14 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "101-uscb/credit-scores/current",
-				"fileSystem": "raw"
+				"folderPath": {
+					"value": "@dataset().DS_Directory",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().DS_Filesystem",
+					"type": "Expression"
+				}
 			},
 			"compressionCodec": "snappy"
 		},
