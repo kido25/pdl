@@ -36,7 +36,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DS_PDL",
+						"referenceName": "DS_PDL_PARQUET",
 						"type": "DatasetReference",
 						"parameters": {
 							"DS_Filesystem": "raw",
@@ -87,17 +87,153 @@
 						}
 					},
 					"sink": {
-						"type": "ParquetSink",
+						"type": "DelimitedTextSink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings"
 						},
 						"formatSettings": {
-							"type": "ParquetWriteSettings"
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
 						}
 					},
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "SeriousDlqin2yrs",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "SeriousDlqin2yrs",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "RevolvingUtilizationOfUnsecuredLines",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "RevolvingUtilizationOfUnsecuredLines",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "age",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "age",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "NumberOfTime30-59DaysPastDueNotWorse",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "NumberOfTime30-59DaysPastDueNotWorse",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DebtRatio",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "DebtRatio",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MonthlyIncome",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "MonthlyIncome",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "NumberOfOpenCreditLinesAndLoans",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "NumberOfOpenCreditLinesAndLoans",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "NumberOfTimes90DaysLate",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "NumberOfTimes90DaysLate",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "NumberRealEstateLoansOrLines",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "NumberRealEstateLoansOrLines",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "NumberOfTime60-89DaysPastDueNotWorse",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "NumberOfTime60-89DaysPastDueNotWorse",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "NumberOfDependents",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "NumberOfDependents",
+									"type": "String",
+									"physicalType": "String"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
@@ -113,18 +249,15 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_PDL",
+						"referenceName": "DS_PDL_CSV",
 						"type": "DatasetReference",
 						"parameters": {
 							"DS_Filesystem": "raw",
 							"DS_Directory": {
-								"value": "@concat(\n\t'101-uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
+								"value": "@concat(\n\t'101_uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
 								"type": "Expression"
 							},
-							"DS_Environment": {
-								"value": "@pipeline().parameters.Environment",
-								"type": "Expression"
-							}
+							"DS_Environment": "dev"
 						}
 					}
 				]
