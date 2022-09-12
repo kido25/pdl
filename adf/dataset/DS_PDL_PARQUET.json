@@ -1,5 +1,5 @@
 {
-	"name": "DS_PDL",
+	"name": "DS_PDL_PARQUET",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_EUW_PDL",
