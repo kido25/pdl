@@ -1,5 +1,5 @@
 {
-	"name": "DS_USCB_CREDIT_SCORES",
+	"name": "DS_S3_USCB_CREDIT_SCORES",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_S3_USCB",
