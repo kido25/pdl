@@ -1,0 +1,87 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_USCB_CREDIT_SCORES",
+						"type": "DatasetReference"
+					},
+					"name": "creditscores"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_PDL_PARQUET",
+						"type": "DatasetReference"
+					},
+					"name": "sink2pdl"
+				}
+			],
+			"transformations": [
+				{
+					"name": "selectcols"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Prop_0 as string,",
+				"          SeriousDlqin2yrs as string,",
+				"          RevolvingUtilizationOfUnsecuredLines as string,",
+				"          age as string,",
+				"          {NumberOfTime30-59DaysPastDueNotWorse} as string,",
+				"          DebtRatio as string,",
+				"          MonthlyIncome as string,",
+				"          NumberOfOpenCreditLinesAndLoans as string,",
+				"          NumberOfTimes90DaysLate as string,",
+				"          NumberRealEstateLoansOrLines as string,",
+				"          {NumberOfTime60-89DaysPastDueNotWorse} as string,",
+				"          NumberOfDependents as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     limit: 100,",
+				"     ignoreNoFilesFound: false) ~> creditscores",
+				"creditscores select(mapColumn(",
+				"          SeriousDlqin2yrs,",
+				"          RevolvingUtilizationOfUnsecuredLines,",
+				"          age,",
+				"          {NumberOfTime30-59DaysPastDueNotWorse},",
+				"          DebtRatio,",
+				"          MonthlyIncome,",
+				"          NumberOfOpenCreditLinesAndLoans,",
+				"          NumberOfTimes90DaysLate,",
+				"          NumberRealEstateLoansOrLines,",
+				"          {NumberOfTime60-89DaysPastDueNotWorse},",
+				"          NumberOfDependents",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectcols",
+				"selectcols sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          SeriousDlqin2yrs,",
+				"          RevolvingUtilizationOfUnsecuredLines,",
+				"          age,",
+				"          {NumberOfTime30-59DaysPastDueNotWorse},",
+				"          DebtRatio,",
+				"          MonthlyIncome,",
+				"          NumberOfOpenCreditLinesAndLoans,",
+				"          NumberOfTimes90DaysLate,",
+				"          NumberRealEstateLoansOrLines,",
+				"          {NumberOfTime60-89DaysPastDueNotWorse},",
+				"          NumberOfDependents",
+				"     )) ~> sink2pdl"
+			]
+		}
+	}
+}
