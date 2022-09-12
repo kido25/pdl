@@ -1,0 +1,146 @@
+{
+	"name": "PL_ING_PDL",
+	"properties": {
+		"activities": [
+			{
+				"name": "SETVAR_CURRENT_TIME",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "current_time",
+					"value": {
+						"value": "@{convertTimeZone(\n\t\t\t\tutcNow(),\n\t\t\t\t'UTC',\n\t\t\t\t'West Asia Standard Time'\n\t\t\t\t,'yyyy/MM/dd/HH')}",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "DEL_FROM_FULL",
+				"type": "Delete",
+				"dependsOn": [
+					{
+						"activity": "SETVAR_CURRENT_TIME",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DS_PDL",
+						"type": "DatasetReference",
+						"parameters": {
+							"DS_Filesystem": "raw",
+							"DS_Directory": {
+								"value": "@concat(\n\t'101-uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
+								"type": "Expression"
+							},
+							"DS_Environment": "dev"
+						}
+					},
+					"enableLogging": false,
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					}
+				}
+			},
+			{
+				"name": "CPY_2_PDL",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "DEL_FROM_FULL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AmazonS3ReadSettings",
+							"recursive": false,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_USCB_CREDIT_SCORES",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_PDL",
+						"type": "DatasetReference",
+						"parameters": {
+							"DS_Filesystem": "raw",
+							"DS_Directory": {
+								"value": "@concat(\n\t'101-uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
+								"type": "Expression"
+							},
+							"DS_Environment": {
+								"value": "@pipeline().parameters.Environment",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"Environment": {
+				"type": "string",
+				"defaultValue": "dev"
+			}
+		},
+		"variables": {
+			"current_time": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
