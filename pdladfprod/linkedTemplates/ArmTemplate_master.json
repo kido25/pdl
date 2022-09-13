@@ -51,7 +51,7 @@
 		},
 		"LS_USCB_properties_typeProperties_servicePrincipalId": {
 			"type": "string",
-			"defaultValue": "f89de603-061a-45de-b029-40ca4360e14b"
+			"defaultValue": "a1768218-285d-4236-99b8-687c1fb1c12d"
 		},
 		"TG_NIGHTLY_ING_CREDIT_SCORES_properties_PL_ING_PDL_parameters_Environment": {
 			"type": "string",
