@@ -43,7 +43,6 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     limit: 100,",
 				"     ignoreNoFilesFound: false) ~> creditscores",
 				"creditscores select(mapColumn(",
 				"          SeriousDlqin2yrs,",
