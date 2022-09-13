@@ -3,7 +3,13 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_EUW_PDL",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"Environment": {
+					"value": "@dataset().DS_Environment",
+					"type": "Expression"
+				}
+			}
 		},
 		"parameters": {
 			"DS_Filesystem": {
