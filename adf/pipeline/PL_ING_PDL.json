@@ -56,8 +56,8 @@
 				}
 			},
 			{
-				"name": "CPY_2_PDL",
-				"type": "Copy",
+				"name": "DF_SELECT_COLS_AND_COPY_2_FULL",
+				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
 						"activity": "DEL_FROM_FULL",
@@ -75,165 +75,72 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_SELECT_COLS",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"sink1": {
+								"DS_Filesystem": "raw",
+								"DS_Directory": {
+									"value": "@concat(\n\t'101_uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
+									"type": "Expression"
+								},
+								"DS_Environment": "dev"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "CPY_FULL_2_CURRENT",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "DF_SELECT_COLS_AND_COPY_2_FULL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "ParquetSource",
 						"storeSettings": {
-							"type": "AmazonS3ReadSettings",
-							"recursive": false,
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": {
+								"value": "@concat(\n\t'raw/101_uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
+								"type": "Expression"
+							},
+							"wildcardFileName": "*.parquet",
 							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
 						}
 					},
 					"sink": {
-						"type": "DelimitedTextSink",
+						"type": "ParquetSink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings"
 						},
 						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".csv"
+							"type": "ParquetWriteSettings"
 						}
 					},
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "SeriousDlqin2yrs",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "SeriousDlqin2yrs",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "RevolvingUtilizationOfUnsecuredLines",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "RevolvingUtilizationOfUnsecuredLines",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "age",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "age",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "NumberOfTime30-59DaysPastDueNotWorse",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "NumberOfTime30-59DaysPastDueNotWorse",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "DebtRatio",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "DebtRatio",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "MonthlyIncome",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "MonthlyIncome",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "NumberOfOpenCreditLinesAndLoans",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "NumberOfOpenCreditLinesAndLoans",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "NumberOfTimes90DaysLate",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "NumberOfTimes90DaysLate",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "NumberRealEstateLoansOrLines",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "NumberRealEstateLoansOrLines",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "NumberOfTime60-89DaysPastDueNotWorse",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "NumberOfTime60-89DaysPastDueNotWorse",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "NumberOfDependents",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "NumberOfDependents",
-									"type": "String",
-									"physicalType": "String"
-								}
-							}
-						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
@@ -243,13 +150,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DS_USCB_CREDIT_SCORES",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "DS_PDL_CSV",
+						"referenceName": "DS_PDL_PARQUET",
 						"type": "DatasetReference",
 						"parameters": {
 							"DS_Filesystem": "raw",
@@ -257,6 +158,17 @@
 								"value": "@concat(\n\t'101_uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
 								"type": "Expression"
 							},
+							"DS_Environment": "dev"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_PDL_PARQUET",
+						"type": "DatasetReference",
+						"parameters": {
+							"DS_Filesystem": "raw",
+							"DS_Directory": "101_uscb/credit_scores/current",
 							"DS_Environment": "dev"
 						}
 					}
