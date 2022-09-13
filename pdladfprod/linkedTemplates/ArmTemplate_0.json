@@ -755,7 +755,7 @@
 				"parameters": {
 					"Environment": {
 						"type": "string",
-						"defaultValue": "dev"
+						"defaultValue": "prod"
 					}
 				},
 				"variables": {
