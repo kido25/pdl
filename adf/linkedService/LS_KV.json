@@ -2,7 +2,7 @@
 	"name": "LS_KV",
 	"properties": {
 		"parameters": {
-			"LS_Environment": {
+			"Environment": {
 				"type": "string",
 				"defaultValue": "dev"
 			}
@@ -10,7 +10,7 @@
 		"annotations": [],
 		"type": "AzureKeyVault",
 		"typeProperties": {
-			"baseUrl": "@{concat('https://pdl-',linkedService().LS_Environment,'-kv.vault.azure.net/')}"
+			"baseUrl": "@{concat('https://pdl-',linkedService().Environment,'-kv.vault.azure.net/')}"
 		}
 	}
 }
