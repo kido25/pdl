@@ -1,12 +1,12 @@
 {
-	"name": "dataflow1",
+	"name": "DF_SELECT_COLS",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "DS_USCB_CREDIT_SCORES",
+						"referenceName": "DS_DL_USCB_CREDIT_SCORES",
 						"type": "DatasetReference"
 					},
 					"name": "creditscores"
@@ -18,7 +18,7 @@
 						"referenceName": "DS_PDL_PARQUET",
 						"type": "DatasetReference"
 					},
-					"name": "sink2pdl"
+					"name": "sink1"
 				}
 			],
 			"transformations": [
@@ -28,17 +28,17 @@
 			],
 			"scriptLines": [
 				"source(output(",
-				"          Prop_0 as string,",
-				"          SeriousDlqin2yrs as string,",
-				"          RevolvingUtilizationOfUnsecuredLines as string,",
-				"          age as string,",
-				"          {NumberOfTime30-59DaysPastDueNotWorse} as string,",
-				"          DebtRatio as string,",
+				"          {_c0} as short,",
+				"          SeriousDlqin2yrs as boolean,",
+				"          RevolvingUtilizationOfUnsecuredLines as double,",
+				"          age as short,",
+				"          {NumberOfTime30-59DaysPastDueNotWorse} as short,",
+				"          DebtRatio as double,",
 				"          MonthlyIncome as string,",
-				"          NumberOfOpenCreditLinesAndLoans as string,",
-				"          NumberOfTimes90DaysLate as string,",
-				"          NumberRealEstateLoansOrLines as string,",
-				"          {NumberOfTime60-89DaysPastDueNotWorse} as string,",
+				"          NumberOfOpenCreditLinesAndLoans as short,",
+				"          NumberOfTimes90DaysLate as short,",
+				"          NumberRealEstateLoansOrLines as short,",
+				"          {NumberOfTime60-89DaysPastDueNotWorse} as short,",
 				"          NumberOfDependents as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
@@ -67,20 +67,7 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     mapColumn(",
-				"          SeriousDlqin2yrs,",
-				"          RevolvingUtilizationOfUnsecuredLines,",
-				"          age,",
-				"          {NumberOfTime30-59DaysPastDueNotWorse},",
-				"          DebtRatio,",
-				"          MonthlyIncome,",
-				"          NumberOfOpenCreditLinesAndLoans,",
-				"          NumberOfTimes90DaysLate,",
-				"          NumberRealEstateLoansOrLines,",
-				"          {NumberOfTime60-89DaysPastDueNotWorse},",
-				"          NumberOfDependents",
-				"     )) ~> sink2pdl"
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
