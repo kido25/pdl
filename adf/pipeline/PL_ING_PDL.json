@@ -41,7 +41,7 @@
 						"parameters": {
 							"DS_Filesystem": "raw",
 							"DS_Directory": {
-								"value": "@concat(\n\t'101-uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
+								"value": "@concat(\n\t'101_uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
 								"type": "Expression"
 							},
 							"DS_Environment": "dev"
