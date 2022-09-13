@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "AzureBlobFS",
 		"typeProperties": {
-			"url": "https://pdleuwdev.dfs.core.windows.net/",
+			"url": "https://pdleuw@{linkedService().Environment}.dfs.core.windows.net/",
 			"tenant": "21baf638-7ba7-431e-96f5-2b57914b27c3",
 			"servicePrincipalId": {
 				"type": "AzureKeyVaultSecret",
@@ -22,6 +22,11 @@
 					"type": "LinkedServiceReference"
 				},
 				"secretName": "app-secret"
+			}
+		},
+		"parameters": {
+			"Environment": {
+				"type": "string"
 			}
 		}
 	}
