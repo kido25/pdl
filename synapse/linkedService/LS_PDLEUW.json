@@ -1,0 +1,25 @@
+{
+	"name": "LS_PDLEUW",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://pdleuwdev.dfs.core.windows.net/",
+			"tenant": "21baf638-7ba7-431e-96f5-2b57914b27c3",
+			"servicePrincipalId": "f89de603-061a-45de-b029-40ca4360e14b",
+			"servicePrincipalCredentialType": "ServicePrincipalKey",
+			"servicePrincipalCredential": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LS_KV",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "app-secret"
+			}
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
