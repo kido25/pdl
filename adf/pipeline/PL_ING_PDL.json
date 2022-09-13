@@ -79,7 +79,7 @@
 						"referenceName": "DF_SELECT_COLS",
 						"type": "DataFlowReference",
 						"datasetParameters": {
-							"sink1": {
+							"sinkcreditscores": {
 								"DS_Filesystem": "raw",
 								"DS_Directory": {
 									"value": "@concat(\n\t'101_uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
