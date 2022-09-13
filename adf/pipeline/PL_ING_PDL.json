@@ -101,7 +101,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "DF_SELECT_COLS_AND_COPY_2_FULL",
+						"activity": "DEL_FROM_CURRENT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -122,7 +122,7 @@
 							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
 							"wildcardFolderPath": {
-								"value": "@concat(\n\t'raw/101_uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
+								"value": "@concat(\n\t'101_uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
 								"type": "Expression"
 							},
 							"wildcardFileName": "*.parquet",
@@ -173,6 +173,43 @@
 						}
 					}
 				]
+			},
+			{
+				"name": "DEL_FROM_CURRENT",
+				"type": "Delete",
+				"dependsOn": [
+					{
+						"activity": "DF_SELECT_COLS_AND_COPY_2_FULL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DS_PDL_PARQUET",
+						"type": "DatasetReference",
+						"parameters": {
+							"DS_Filesystem": "raw",
+							"DS_Directory": "101_uscb/credit_scores/current",
+							"DS_Environment": "dev"
+						}
+					},
+					"enableLogging": false,
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					}
+				}
 			}
 		],
 		"parameters": {
