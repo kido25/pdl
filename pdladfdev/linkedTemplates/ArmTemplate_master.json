@@ -1,0 +1,112 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "pdladfdev"
+		},
+		"LS_S3_USCB_properties_typeProperties_accessKeyId": {
+			"type": "object",
+			"defaultValue": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LS_KV",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "uscb-s3-accesskey"
+			}
+		},
+		"LS_USCB_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://uscbeuw.dfs.core.windows.net/"
+		},
+		"LS_USCB_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "21baf638-7ba7-431e-96f5-2b57914b27c3"
+		},
+		"LS_USCB_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "f89de603-061a-45de-b029-40ca4360e14b"
+		},
+		"LS_EUW_PDL_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://pdleuw@{linkedService().Environment}.dfs.core.windows.net/"
+		},
+		"LS_EUW_PDL_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "21baf638-7ba7-431e-96f5-2b57914b27c3"
+		},
+		"LS_EUW_PDL_properties_typeProperties_servicePrincipalId": {
+			"type": "object",
+			"defaultValue": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"type": "LinkedServiceReference",
+					"referenceName": "LS_KV"
+				},
+				"secretName": "client-id"
+			}
+		},
+		"LS_KV_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "@{concat('https://pdl-',linkedService().Environment,'-kv.vault.azure.net/')}"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "pdladfdev_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_S3_USCB_properties_typeProperties_accessKeyId": {
+						"value": "[parameters('LS_S3_USCB_properties_typeProperties_accessKeyId')]"
+					},
+					"LS_USCB_properties_typeProperties_url": {
+						"value": "[parameters('LS_USCB_properties_typeProperties_url')]"
+					},
+					"LS_USCB_properties_typeProperties_tenant": {
+						"value": "[parameters('LS_USCB_properties_typeProperties_tenant')]"
+					},
+					"LS_USCB_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('LS_USCB_properties_typeProperties_servicePrincipalId')]"
+					},
+					"LS_EUW_PDL_properties_typeProperties_url": {
+						"value": "[parameters('LS_EUW_PDL_properties_typeProperties_url')]"
+					},
+					"LS_EUW_PDL_properties_typeProperties_tenant": {
+						"value": "[parameters('LS_EUW_PDL_properties_typeProperties_tenant')]"
+					},
+					"LS_EUW_PDL_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('LS_EUW_PDL_properties_typeProperties_servicePrincipalId')]"
+					},
+					"LS_KV_properties_typeProperties_baseUrl": {
+						"value": "[parameters('LS_KV_properties_typeProperties_baseUrl')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
