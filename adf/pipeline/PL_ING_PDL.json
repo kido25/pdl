@@ -44,7 +44,10 @@
 								"value": "@concat(\n\t'101_uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
 								"type": "Expression"
 							},
-							"DS_Environment": "dev"
+							"DS_Environment": {
+								"value": "@pipeline().parameters.Environment",
+								"type": "Expression"
+							}
 						}
 					},
 					"enableLogging": false,
@@ -158,7 +161,10 @@
 								"value": "@concat(\n\t'101_uscb/credit_scores/full/',\n\tvariables('current_time')\n\t)",
 								"type": "Expression"
 							},
-							"DS_Environment": "dev"
+							"DS_Environment": {
+								"value": "@pipeline().parameters.Environment",
+								"type": "Expression"
+							}
 						}
 					}
 				],
