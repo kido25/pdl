@@ -1,0 +1,56 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "pdladfprod"
+		},
+		"LS_EUW_PDL_properties_typeProperties_url": {
+			"value": "https://pdleuw@{linkedService().Environment}.dfs.core.windows.net/"
+		},
+		"LS_EUW_PDL_properties_typeProperties_tenant": {
+			"value": "21baf638-7ba7-431e-96f5-2b57914b27c3"
+		},
+		"LS_EUW_PDL_properties_typeProperties_servicePrincipalId": {
+			"value": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"type": "LinkedServiceReference",
+					"referenceName": "LS_KV"
+				},
+				"secretName": "client-id"
+			}
+		},
+		"LS_KV_properties_typeProperties_baseUrl": {
+			"value": "@{concat('https://pdl-',linkedService().Environment,'-kv.vault.azure.net/')}"
+		},
+		"LS_S3_USCB_properties_typeProperties_accessKeyId": {
+			"value": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LS_KV",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "uscb-s3-accesskey"
+			}
+		},
+		"LS_USCB_properties_typeProperties_url": {
+			"value": "https://uscbeuw.dfs.core.windows.net/"
+		},
+		"LS_USCB_properties_typeProperties_tenant": {
+			"value": "21baf638-7ba7-431e-96f5-2b57914b27c3"
+		},
+		"LS_USCB_properties_typeProperties_servicePrincipalId": {
+			"value": "f89de603-061a-45de-b029-40ca4360e14b"
+		},
+		"TG_NIGHTLY_ING_CREDIT_SCORES_properties_PL_ING_PDL_parameters_Environment": {
+			"value": "dev"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
