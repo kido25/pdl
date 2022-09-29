@@ -1,8 +1,8 @@
 {
 	"name": "LS_EUW_PDL",
 	"properties": {
-		"annotations": [],
 		"type": "AzureBlobFS",
+		"annotations": [],
 		"typeProperties": {
 			"url": "https://pdleuw@{linkedService().Environment}.dfs.core.windows.net/",
 			"tenant": "21baf638-7ba7-431e-96f5-2b57914b27c3",
