@@ -2,7 +2,7 @@
 	"name": "TG_NIGHTLY_ING_CREDIT_SCORES",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipelines": [
 			{
 				"pipelineReference": {
